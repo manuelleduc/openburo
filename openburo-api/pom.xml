@@ -22,24 +22,31 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.xwiki.contrib.openburo</groupId>
-  <artifactId>openburo</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
+
   <parent>
-    <groupId>org.xwiki.contrib</groupId>
-    <artifactId>parent-platform</artifactId>
-    <version>18.1.0</version>
+    <groupId>org.xwiki.contrib.openburo</groupId>
+    <artifactId>openburo</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
-  <developers>
-    <developer>
-      <id>mleduc</id>
-      <email>manuel.leduc@xwiki.com</email>
-      <name>Manuel Leduc</name>
-    </developer>
-  </developers>
-  <modules>
-    <module>openburo-api</module>
-    <module>openburo-webjar</module>
-  </modules>
+
+  <artifactId>openburo-api</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-uiextension-api</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-template-api</artifactId>
+      <version>${platform.version}</version>
+    </dependency>
+    <!-- Runtime dependencies -->
+    <dependency>
+      <groupId>org.xwiki.contrib.openburo</groupId>
+      <artifactId>openburo-webjar</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 </project>

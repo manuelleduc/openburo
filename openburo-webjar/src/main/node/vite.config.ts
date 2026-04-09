@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+/**
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  *
@@ -17,29 +16,22 @@
  * License along with this software; if not, write to the Free
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.xwiki.contrib.openburo</groupId>
-  <artifactId>openburo</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <parent>
-    <groupId>org.xwiki.contrib</groupId>
-    <artifactId>parent-platform</artifactId>
-    <version>18.1.0</version>
-  </parent>
-  <developers>
-    <developer>
-      <id>mleduc</id>
-      <email>manuel.leduc@xwiki.com</email>
-      <name>Manuel Leduc</name>
-    </developer>
-  </developers>
-  <modules>
-    <module>openburo-api</module>
-    <module>openburo-webjar</module>
-  </modules>
-</project>
+ */
+
+import {
+  generateConfigVue,
+  generateWebjarNodeConfig,
+} from "@xwiki/platform-tool-viteconfig";
+import { defineConfig, mergeConfig } from "vite";
+
+export default mergeConfig(
+  mergeConfig(
+    generateConfigVue(import.meta.url),
+    generateWebjarNodeConfig(import.meta.url),
+  ),
+  defineConfig({
+    build: {
+      sourcemap: true,
+    },
+  }),
+);

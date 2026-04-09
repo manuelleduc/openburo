@@ -1,0 +1,2 @@
+org.xwiki.contrib.openburo.internal.OpenburoAttachmentsActionUIExtension
+org.xwiki.contrib.openburo.internal.OpenburoHeaderUIExtension

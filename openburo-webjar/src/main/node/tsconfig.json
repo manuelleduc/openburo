@@ -1,0 +1,14 @@
+{
+  "extends": "@xwiki/platform-tool-tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "isolatedDeclarations": false,
+    "noEmit": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "**/*.test.*",
+    "**/*.spec.*"
+  ]
+}

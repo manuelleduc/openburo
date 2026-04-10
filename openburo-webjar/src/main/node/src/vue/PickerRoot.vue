@@ -51,7 +51,7 @@ function openRemoteSource() {
     let randomID = crypto.randomUUID();
     const url: string = `${new URL(path, currentPicker.value.url)}?${new URLSearchParams(
       {
-        clientUrl: window.location.host,
+        clientUrl: window.location.origin,
         // Random value, we have no use for it yet
         id: randomID,
         type: "payload",
@@ -60,7 +60,7 @@ function openRemoteSource() {
         multiple: "true",
       },
     )}`;
-    const popup = window.open(url, `${randomID}ShareWindow`, "popp=true");
+    const popup = window.open(url, `${randomID}ShareWindow`, "popup=true");
     // eslint-disable-next-line max-statements
     window.addEventListener("message", async (event) => {
       // Check if the event is from the popup we just opened
@@ -76,19 +76,27 @@ function openRemoteSource() {
         return;
       }
 
-      console.debug("Received:", event.data);
+      popup?.close();
+
+      console.debug("Received:");
+
+      const data: {
+        id: string;
+        results: { name: string; mimeType: string; payload: string }[];
+      } = event.data;
       dialog.value = false;
       // https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/XWikiRESTfulAPI#H2Fwikis2F7BwikiName7D2Fspaces2F7BspaceName7D5B2Fspaces2F7BnestedSpaceName7D5D2A2Fpages2F7BpageName7D2Fattachments2F7BattachmentName7D
 
-      const file = new File(
-        [event.data.fileContent], // raw content
-        event.data.file.name, // filename
-        // TODO: MIME type
-        { type: "text/html" },
-      );
-
       const dt = new DataTransfer();
-      dt.items.add(file);
+      for (const result of data.results) {
+        const bin = atob(result.payload);
+        const arr = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) {
+          arr[i] = bin.charCodeAt(i);
+        }
+        const file = new File([arr], result.name, { type: result.mimeType });
+        dt.items.add(file);
+      }
 
       const input = document.getElementById(
         "xwikiuploadfile",

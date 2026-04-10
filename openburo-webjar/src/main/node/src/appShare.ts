@@ -42,28 +42,31 @@ type AppShares = AppShare[];
 
 export const appShare: AppShares = [
   {
-    id: "webmail",
-    name: "Webmail",
-    url: "http://localhost:7002",
-    version: "2.0.0",
     capabilities: [
       {
-        action: "SAVE",
+        action: "PICK",
+        path: "http://10.4.0.32:5000/browse/",
         properties: {
-          mimeTypes: [
-            "text/uri-list",
-            "application/octet-stream",
-            "application/pdf",
-          ],
+          mimeTypes: ["*/*"],
         },
-        path: "share.html",
+      },
+      {
+        action: "SAVE",
+        path: "http://10.4.0.32:5000/browse/",
+        properties: {
+          mimeTypes: ["*/*"],
+        },
       },
     ],
+    id: "webdav-filepicker",
+    name: "WebDAV File Picker",
+    url: "http://10.4.0.32:5000",
+    version: "1",
   },
   {
     id: "xwiki",
     name: "XWiki",
-    url: "http://localhost:7003",
+    url: "http://10.4.0.13:7003",
     version: "2.0.0",
     capabilities: [
       {
@@ -90,27 +93,6 @@ export const appShare: AppShares = [
           ],
         },
         path: "share.html",
-      },
-    ],
-  },
-  {
-    id: "other",
-    name: "Other",
-    url: "http://localhost:7004",
-    version: "2.0.0",
-    capabilities: [
-      {
-        action: "PICK",
-        properties: {
-          mimeTypes: [
-            "text/uri-list",
-            "text/plain",
-            "application/octet-stream",
-            "application/pdf",
-          ],
-          sourceItems: ["s-001", "s-002"],
-        },
-        path: "select.html",
       },
     ],
   },

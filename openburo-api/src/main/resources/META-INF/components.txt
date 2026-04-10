@@ -1,2 +1,4 @@
 org.xwiki.contrib.openburo.internal.OpenburoAttachmentsActionUIExtension
+org.xwiki.contrib.openburo.internal.OpenburoConfigurationMandatoryDocumentInitializer
 org.xwiki.contrib.openburo.internal.OpenburoHeaderUIExtension
+org.xwiki.contrib.openburo.OpenburoScriptService

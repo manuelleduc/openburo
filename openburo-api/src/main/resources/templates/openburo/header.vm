@@ -18,7 +18,10 @@
 ## 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 ## ---------------------------------------------------------------------------
 <script type="module">
-    import {initPicker} from "openburo-webjar"
+    import {initPicker} from "openburo-webjar";
 
     initPicker();
+</script>
+<script type="application/json" id="xwiki-contrib-openburo-configuration">
+$services.openburo.manifest
 </script>

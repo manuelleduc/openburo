@@ -42,7 +42,6 @@ import org.xwiki.uiextension.UIExtension;
 @Singleton
 public class OpenburoHeaderUIExtension implements UIExtension
 {
-
     @Inject
     private TemplateManager templateManager;
 

@@ -28,7 +28,7 @@ const dialog = ref();
 function openModal() {
   dialog.value = true;
 }
-const picks = appShare.filter((as) =>
+const picks = appShare().filter((as) =>
   as.capabilities.some((capability) => capability.action == "PICK"),
 );
 
@@ -132,7 +132,7 @@ function openRemoteSource() {
         <template #default>
           <div>
             <strong>Source Apps</strong>
-            <div>
+            <div v-if="picks.length > 0">
               <x-btn
                 v-for="pick in picks"
                 :key="pick.id"
@@ -143,6 +143,7 @@ function openRemoteSource() {
                 {{ pick.name }}
               </x-btn>
             </div>
+            <div v-else>No available openburo pickers</div>
           </div>
         </template>
         <template #footer>

@@ -28,7 +28,7 @@ const dialog = ref();
 const details: Ref<
   { url: string; name: string; size: string; mimeType: string } | undefined
 > = ref();
-const savers = appShare.filter((as) =>
+const savers = appShare().filter((as) =>
   as.capabilities.some((capability) => capability.action == "SAVE"),
 );
 

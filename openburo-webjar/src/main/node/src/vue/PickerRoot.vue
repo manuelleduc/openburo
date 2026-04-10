@@ -28,7 +28,87 @@ const dialog = ref();
 function openModal() {
   dialog.value = true;
 }
-console.log(appShare);
+const picks = appShare.filter((as) =>
+  as.capabilities.some((capability) => capability.action == "PICK"),
+);
+
+const currentPicker = ref(picks[0]);
+const error = ref();
+
+// eslint-disable-next-line max-statements
+function openRemoteSource() {
+  const path = currentPicker.value.capabilities.find(
+    (c) => c.action == "PICK",
+  )?.path;
+  error.value = undefined;
+  if (!path) {
+    error.value =
+      "no path found for action PICK and pick " + currentPicker.value.id;
+    return;
+  }
+  try {
+    // See https://benibur.github.io/openburo-spec/sujets-ateliers.html#callback--r%C3%A9sultat
+    let randomID = crypto.randomUUID();
+    const url: string = `${new URL(path, currentPicker.value.url)}?${new URLSearchParams(
+      {
+        clientUrl: window.location.host,
+        // Random value, we have no use for it yet
+        id: randomID,
+        type: "payload",
+        // TODO: use allowed mimetypes from config here
+        allowedMimeType: "*/*",
+        multiple: "true",
+      },
+    )}`;
+    const popup = window.open(url, `${randomID}ShareWindow`, "popp=true");
+    // eslint-disable-next-line max-statements
+    window.addEventListener("message", async (event) => {
+      // Check if the event is from the popup we just opened
+      if (event.source !== popup) {
+        return;
+      }
+
+      if (event.origin !== currentPicker.value.url) {
+        console.debug(
+          "message rejected",
+          `${url} expected but ${event.origin} received`,
+        );
+        return;
+      }
+
+      console.debug("Received:", event.data);
+      dialog.value = false;
+      // https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/XWikiRESTfulAPI#H2Fwikis2F7BwikiName7D2Fspaces2F7BspaceName7D5B2Fspaces2F7BnestedSpaceName7D5D2A2Fpages2F7BpageName7D2Fattachments2F7BattachmentName7D
+
+      const file = new File(
+        [event.data.fileContent], // raw content
+        event.data.file.name, // filename
+        // TODO: MIME type
+        { type: "text/html" },
+      );
+
+      const dt = new DataTransfer();
+      dt.items.add(file);
+
+      const input = document.getElementById(
+        "xwikiuploadfile",
+      )! as HTMLInputElement;
+
+      input.files = dt.files;
+      new XWiki.FileUploader(input, {
+        responseContainer: document.createElement("div"),
+        responseURL: "",
+      });
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+  } catch (e) {
+    if (e instanceof Error) {
+      error.value = e.message;
+    } else {
+      error.value = `${e}`;
+    }
+  }
+}
 </script>
 
 <template>
@@ -43,11 +123,26 @@ console.log(appShare);
       >
         <template #default>
           <div>
-            <strong>Supported import formats</strong>
+            <strong>Source Apps</strong>
+            <div>
+              <x-btn
+                v-for="pick in picks"
+                :key="pick.id"
+                :variant="pick.id == currentPicker.id ? 'primary' : 'default'"
+                @click="currentPicker = pick"
+                :class="$style.margin"
+              >
+                {{ pick.name }}
+              </x-btn>
+            </div>
           </div>
         </template>
         <template #footer>
-          <x-btn variant="primary">Open Selection</x-btn>
+          <x-btn variant="primary" @click="openRemoteSource"
+            >Open Selection</x-btn
+          >
+          <!-- TODO: style me -->
+          <div v-if="error">{{ error }}</div>
         </template>
       </x-dialog>
     </div>
@@ -57,5 +152,10 @@ console.log(appShare);
 <style scoped>
 legend {
   font-size: 1.3em; /* to stay consistent with "Attach files to this page" */
+}
+</style>
+<style module>
+.margin {
+  margin-right: 1em;
 }
 </style>

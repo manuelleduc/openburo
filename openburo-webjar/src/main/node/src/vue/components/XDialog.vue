@@ -35,7 +35,7 @@ const jQuery: Promise<JQueryStatic> = new Promise((resolve) => {
   require(["jquery", "bootstrap"], ($: JQueryStatic) => resolve($));
 });
 
-defineSlots<{ default(): void; activator(): void; footer(): void }>();
+defineSlots<{ default(): void; activator(): void; footer?(): void }>();
 const root = useTemplateRef("root");
 const open = defineModel<boolean>({ default: false });
 

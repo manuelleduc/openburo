@@ -93,4 +93,25 @@ export const appShare: AppShares = [
       },
     ],
   },
+  {
+    id: "other",
+    name: "Other",
+    url: "http://localhost:7004",
+    version: "2.0.0",
+    capabilities: [
+      {
+        action: "PICK",
+        properties: {
+          mimeTypes: [
+            "text/uri-list",
+            "text/plain",
+            "application/octet-stream",
+            "application/pdf",
+          ],
+          sourceItems: ["s-001", "s-002"],
+        },
+        path: "select.html",
+      },
+    ],
+  },
 ];

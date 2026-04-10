@@ -1,0 +1,2 @@
+org.xwiki.contrib.openburo.internal.OpenburoResourceReferenceHandler
+org.xwiki.contrib.openburo.internal.OpenburoResourceReferenceResolver

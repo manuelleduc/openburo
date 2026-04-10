@@ -17,12 +17,35 @@
 ## Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 ## 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 ## ---------------------------------------------------------------------------
-## TODO: add translations
-<a class="actionshare action" title="Share with OpenBuro"
-   data-attachment-url="$escapetool.xml($xwiki.getURL($attachment.reference))"
-   data-attachment-name="$escapetool.xml($attachment.filename)"
-   data-attachment-size="$escapetool.xml($attachment.longSize)"
-   data-attachment-mimeType="$escapetool.xml($attachment.mimeType)">
-    <span class="action-icon text-danger">$services.icon.renderHTML('truck')</span>
-    Share
-</a>
+###
+### Main "view" template
+###
+### General wrapper for view actions
+###
+#if ($services.distribution.jobStatus && $services.distribution.jobStatus.state.name() !=
+    'FINISHED' && $services.distribution.canDisplayDistributionWizard())
+    $response.sendRedirect($xwiki.getURL(
+        'XWiki.Distribution', 'distribution', "xredirect=$escapetool.url($xwiki.relativeRequestURL)"))
+#elseif ($request.getParameter("raw").equals("1"))
+    #template("code.vm")
+#else
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Openburo</title>
+    <script type="importmap">
+    #template("meta.vm")
+
+    </script>
+    <script type="module">
+        import {initProvider} from "openburo-webjar";
+
+        initProvider();
+    </script>
+</head>
+<body>
+<div id="InitProvider"></div>
+</body>
+</html>
+#end

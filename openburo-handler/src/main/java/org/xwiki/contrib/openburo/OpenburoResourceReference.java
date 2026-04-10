@@ -1,4 +1,4 @@
-/**
+/*
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
  *
@@ -17,17 +17,36 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
+package org.xwiki.contrib.openburo;
 
-import { initPicker } from "./initPicker";
-import { initProvider } from "./initProvider";
-import { initShare } from "./initShare";
+import org.xwiki.resource.AbstractResourceReference;
+import org.xwiki.resource.ResourceType;
+import org.xwiki.stability.Unstable;
 
-if (!crypto.randomUUID) {
-  crypto.randomUUID = function () {
-    return `${Math.random()}-${Math.random()}-${Math.random()}-${Math.random()}-${Math.random()}`;
-  };
+/**
+ * Represents a reference to an Openburo resource.
+ *
+ * @since 1.0.0
+ * @version $Id$
+ */
+@Unstable
+public class OpenburoResourceReference extends AbstractResourceReference
+{
+    /**
+     * Global openburo id.
+     */
+    public static final String OPENBURO_ID = "openburo";
+
+    /**
+     * Represents an Openburo Resource Type.
+     */
+    public static final ResourceType TYPE = new ResourceType(OPENBURO_ID);
+
+    /**
+     * Default constructor.
+     */
+    public OpenburoResourceReference()
+    {
+        this.setType(TYPE);
+    }
 }
-
-initShare();
-
-export { initPicker, initProvider };

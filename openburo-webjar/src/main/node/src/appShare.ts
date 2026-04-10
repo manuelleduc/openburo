@@ -20,6 +20,7 @@
 
 type Properties = {
   mimeTypes: string[];
+  multiple?: boolean;
   // TODO: not exactly sure what is is for, and it can possibly be specific to PICK actions
   sourceItems?: string[];
 };
@@ -35,6 +36,7 @@ type AppShare = {
   name: string;
   url: string;
   version: string;
+  display?: "modal";
   capabilities: Capability[];
 };
 
@@ -52,7 +54,7 @@ export const appShare: AppShares = [
       },
       {
         action: "SAVE",
-        path: "http://10.4.0.32:5000/browse/",
+        path: "http://10.4.0.32:5000/save/",
         properties: {
           mimeTypes: ["*/*"],
         },
@@ -93,6 +95,72 @@ export const appShare: AppShares = [
           ],
         },
         path: "share.html",
+      },
+    ],
+  },
+  {
+    id: "webmail",
+    name: "Webmail",
+    url: "http://localhost:7002",
+    version: "2.0.0",
+    capabilities: [
+      {
+        action: "SAVE",
+        properties: {
+          mimeTypes: [
+            "text/uri-list",
+            "application/octet-stream",
+            "application/pdf",
+          ],
+        },
+        path: "share.html",
+      },
+    ],
+  },
+  {
+    id: "jalios-demo",
+    name: "Jalios Demo",
+    url: "https://openburo-jalios.eu.ngrok.io/en/",
+    version: "0.1",
+    capabilities: [
+      {
+        action: "PICK",
+        properties: {
+          mimeTypes: ["*/*"],
+          multiple: true,
+        },
+        path: "https://openburo-jalios.eu.ngrok.io/en/plugins/OpenBuroPlugin/jsp/openBuroChooser.jsp",
+      },
+    ],
+  },
+  {
+    capabilities: [
+      {
+        action: "PICK",
+        path: "http://837a-46-255-204-128.ngrok-free.app/embed/file-picker",
+        properties: {
+          mimeTypes: ["*/*"],
+        },
+      },
+    ],
+    id: "fichiers-file-picker",
+    name: "Fichiers File Picker",
+    url: "https://837a-46-255-204-128.ngrok-free.app",
+    version: "1",
+    display: "modal",
+  },
+  {
+    id: "twake-drive-filepicker",
+    name: "Twake Drive File Picker",
+    url: "https://openburo1-drive.stg.lin-saas.com/openburo.json",
+    version: "0.0.1",
+    capabilities: [
+      {
+        action: "PICK",
+        properties: {
+          mimeTypes: ["*/*"],
+        },
+        path: "https://openburo1-drive.stg.lin-saas.com/capabilities/PICK",
       },
     ],
   },

@@ -48,7 +48,7 @@ function openRemoteSource() {
   }
   try {
     // See https://benibur.github.io/openburo-spec/sujets-ateliers.html#callback--r%C3%A9sultat
-    let randomID = crypto.randomUUID();
+    const randomID = crypto.randomUUID();
     const url: string = `${new URL(path, currentPicker.value.url)}?${new URLSearchParams(
       {
         clientUrl: window.location.origin,
@@ -146,9 +146,9 @@ function openRemoteSource() {
           </div>
         </template>
         <template #footer>
-          <x-btn variant="primary" @click="openRemoteSource"
-            >Open Selection</x-btn
-          >
+          <x-btn variant="primary" @click="openRemoteSource">
+            Open Selection
+          </x-btn>
           <!-- TODO: style me -->
           <div v-if="error">{{ error }}</div>
         </template>
